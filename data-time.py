@@ -1,5 +1,14 @@
-import re
+
 import datetime
+
+
+def convert(seconds):
+    seconds = seconds % (24 * 3600)
+    hour = seconds // 3600
+    seconds %= 3600
+    minutes = seconds // 60
+    seconds %= 60
+    return "%d:%02d:%02d" % (hour, minutes, seconds)
 
 def validate(timeList):
     # timeList = ['0:00:00', '0:00:15', '9:30:56']
@@ -25,13 +34,11 @@ for i in range(n):
             end = end.replace('24:00', '0:00')
         startDateTime = datetime.datetime.strptime(start, format)
         endDateTime = datetime.datetime.strptime(end, format)
-        start1 = startDateTime.strftime(format)
-        end1 = endDateTime.strftime(format)
-        diff = startDateTime - endDateTime
-        print(diff)
-        diff1 = str(diff).partition(', ')[2]
-        print(diff1)
-        diff_list[i].append(diff1)
+        # start1 = startDateTime.strftime(format)
+        # end1 = endDateTime.strftime(format)
+        diff = endDateTime -startDateTime
+        diff = convert(diff.total_seconds())
+        diff_list[i].append(diff)
 
 for timedata_list in diff_list:
     result = validate(timedata_list)
